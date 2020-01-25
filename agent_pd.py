@@ -3,7 +3,7 @@ from environment.grid_env import Environment
 
 BOARD_COLS = 4
 BOARD_ROWS = 3
-EPSILON = 0.01
+EPSILON = 0.00001
 GAMMA = 0.9
 
 UP = 'up'
@@ -35,9 +35,6 @@ while(delta > EPSILON):
                 for prob_action, prob in zip(ACTIONS[action], p):
                     env = Environment(state = (row, col), deterministic=True)
                     next_state = env.nextPosition(prob_action)
-                    print("state = ({}, {})", row, col)
-                    print("action = " + prob_action)
-                    print("next-state = " + str(next_state))
                     print()
                     reward = env.giveReward()
                     new_state_value += prob * (reward + GAMMA * V[next_state[0]][next_state[1]])
@@ -45,4 +42,4 @@ while(delta > EPSILON):
             V[row][col] = np.max(values)
             v_change = np.abs(state_value_old - np.max(values))
             delta = np.maximum(delta, v_change)
-    print("\nDelta = " + str(delta) + "\n")
+print("V = \n" + str(V))

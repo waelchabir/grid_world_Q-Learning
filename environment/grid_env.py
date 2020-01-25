@@ -48,7 +48,7 @@ class Environment:
     
     def nextPosition(self, action):
         if self.deterministic:
-            print('[ENV] Processing deterministic')
+            # print('[ENV] Processing deterministic')
             nxtState = self.state
             if action == UP:
                 nxtState = (self.state[0] - 1, self.state[1])
@@ -60,7 +60,7 @@ class Environment:
                 nxtState = (self.state[0], self.state[1] + 1)
             self.deterministic = False
         else:
-            print('[ENV] Processing NON deterministic')
+            # print('[ENV] Processing NON deterministic')
             action = self._chooseActionProb(action)
             self.deterministic = True
             nxtState = self.nextPosition(action)
