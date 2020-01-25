@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np 
 
 # global variables
 BOARD_ROWS = 3
@@ -7,7 +7,6 @@ WIN_STATE = (0, 3)
 LOSE_STATE = (1, 3)
 WALL_STATE = (1, 1)
 START = (2, 0)
-DETERMINISTIC = False
 
 # Actions
 UP      = 'up'
@@ -16,14 +15,14 @@ LEFT    = 'left'
 RIGHT   = 'right'
 
 class Environment:
-    def __init__(self, state=START):
+    def __init__(self, state=START, deterministic = False):
         self.board = np.zeros([BOARD_ROWS, BOARD_COLS])
         self.board[WIN_STATE[0], WIN_STATE[1]] = 1
         self.board[LOSE_STATE[0], LOSE_STATE[1]] = -1
         self.board[WALL_STATE[0], WALL_STATE[1]] = 5
         self.state = START
         self.isEnd = False
-        self.deterministic = DETERMINISTIC
+        self.deterministic = deterministic
 
     def giveReward(self):
         if self.state == WIN_STATE:
@@ -49,6 +48,7 @@ class Environment:
     
     def nextPosition(self, action):
         if self.deterministic:
+            print('[ENV] Processing deterministic')
             nxtState = self.state
             if action == UP:
                 nxtState = (self.state[0] - 1, self.state[1])
@@ -59,8 +59,8 @@ class Environment:
             if action == RIGHT:
                 nxtState = (self.state[0], self.state[1] + 1)
             self.deterministic = False
-            return nxtState
         else:
+            print('[ENV] Processing NON deterministic')
             action = self._chooseActionProb(action)
             self.deterministic = True
             nxtState = self.nextPosition(action)
